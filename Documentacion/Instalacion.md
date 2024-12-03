@@ -21,8 +21,5 @@ npm install --save-dev --save-exact prettier
     node --eval "fs.writeFileSync('.prettierignore','# Ignore artifacts:\nbuild\ncoverage\n')"
     npm install --save-dev eslint-config-prettier
 
-
-
-
 npm install pg
     npm i --save-dev @types/pg
