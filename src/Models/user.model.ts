@@ -1,32 +1,52 @@
-import { readFile, writeFile } from "node:fs/promises"
-import path from "node:path"
-import { User } from "../Interfaces/user.interface"
+import { pool } from "../Config/database";
+import { User } from "../Interfaces/user.interface";
 
+const findUserById = async (id_user: string) => {
+    console.log("findUserById")
 
-// import { stringify } from "node:querystring"
-// import { writeFile } from "node:fs"
-const __dirname = import.meta.dirname //existe naturalmente en el require
-const pathFile = path.resolve(__dirname, "../Data/users.json")
-//console.log(__dirname)
+    const query = {
+        text: `SELECT * FROM USERS
+        WHERE id_user = $1
+        `,
+        values: [id_user]
+    }
 
-const readUsers = async () => {
-    const usersJSON = await readFile(pathFile, "utf-8")
-    const users = JSON.parse(usersJSON) as User[] //mejor forma de tipar
-    return users;
+    const { rows } = await pool.query(query)
+    console.log(rows)
+    return rows[0] as User;
 }
-const writeUser = async (users: User[]) => {
-    const usersJSON = JSON.stringify(users, null, 2);
-    return await writeFile(pathFile, usersJSON)
+const findUserByEmail = async (email: string) => {
+    console.log("findUserByEmail")
+
+    const query = {
+        text: `SELECT * FROM USERS
+        WHERE email = $1 
+        `,
+        values: [email]
+    }
+
+    const { rows } = await pool.query(query)
+    console.log(rows)
+    return rows[0] as User;
 }
 
-const writeUsers = async (users: User[]) => {
-    const usersJSON = JSON.stringify(users, null, 2);
-    return await writeFile(pathFile, usersJSON); //no obligatorio el return
-}
+const create = async (user: User) => {
+    console.log("create");
+    const { name, email, password_hash, created_at } = user
+    const query = {
+        text: `INSERT INTO TRANSACTIONS(name, email, password_hash, created_at)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *`,
+        values: [name, email, password_hash, created_at, Date()]
+    }
 
+    const { rows } = await pool.query(query)
+    console.log(rows)
+    return rows as User[]
+}
 
 export const UserModel = {
-    readUsers,
-    writeUser,
-    writeUsers
+    findUserById,
+    findUserByEmail,
+    create
 }

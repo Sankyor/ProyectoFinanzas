@@ -3,15 +3,12 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 const loginWithEmailAndPassword = async (email: string, password: string) => {
-    const users = await userService.getAllUsers()
-    const user = users.find(item => item.email === email)
-
+    const user = await userService.getUserByEmail(email)
     if (!user) {
         throw new Error("User not found");
     }
-
     // comparar los hash de contrasena
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(password, user.password_hash);
     if (!isValidPassword) {
         throw new Error("Password incorrect")
     }

@@ -1,50 +1,41 @@
-//** El controller es quién le responde al cliente!
-
-import {Request, Response} from "express"
+import { Request, Response } from "express"
 import { userService } from "../Services/user.service"
-const getUsers = async(req:Request, res:Response) =>{
-    try{
-        const user = await userService.getAllUsers()
+
+
+const getUserById = async (req: Request, res: Response) => {
+    try {
+        const { id_user } = req.params;
+        const user = await userService.getUserById(id_user)
         res.json(user)
-    }catch(error){
+    } catch (error) {
         console.log(error)
-        if(error instanceof Error){
-            res.status(500).json({error: error.message})
-            
-        } else res.status(500).json({error: "Error de servidor"})
-    }
-}
-const getUser = async(req:Request, res:Response) =>{
-    try{
-        const { id } = req.params; 
-        const user = await userService.getUserById(id)
-        res.json(user)
-        }catch(error){
-        console.log(error)
-        if(error instanceof Error){
-            res.status(500).json({error: error.message})
-        } else res.status(500).json({error: "Error de servidor"})
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message })
+        } else res.status(500).json({ error: "Error de servidor" })
     }
 }
 
-const createUser = async(req:Request, res:Response) =>{
-    try{
-        const {email, password} = req.body
-        const newUser = await userService.createUserWithEmailAndPassword(email, password);
-        res.json({newUser})
+const createUser = async (req: Request, res: Response) => {
+    try {
+        const { name, email, password_hash, created_at } = req.body
+        if (!name || !email || !password_hash || !created_at) {
+            res.status(304).json({ error: "Error de servidor" })
+            throw new Error("Error al agregar usuario, dato faltante")
+        }
+        const newUser = await userService.createUser(req.body);
+        res.json({ newUser })
 
-        }catch(error){
+    } catch (error) {
         console.log(error)
-        if(error instanceof Error){
-            res.status(500).json({error: error.message})
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message })
             return;
         }
-        res.status(500).json({error: "Error de servidor"})
+        res.status(500).json({ error: "Error de servidor" })
     }
 }
 
 export const userController = {
-    getUsers,
-    getUser,
+    getUserById,
     createUser
 }

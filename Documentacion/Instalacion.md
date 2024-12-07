@@ -21,5 +21,15 @@ npm install --save-dev --save-exact prettier
     node --eval "fs.writeFileSync('.prettierignore','# Ignore artifacts:\nbuild\ncoverage\n')"
     npm install --save-dev eslint-config-prettier
 
+
+----------------------------------------------------------
 npm install pg
     npm i --save-dev @types/pg
+
+Logging - https://www.npmjs.com/package/winston
+
+Hito2
+npm i swagger-jsdoc https://swagger.io/
+npm i swagger-ui-express
+npm i --save-dev @types/swagger-jsdoc
+- npm i joi https://joi.dev/api/?v=17.13.3
