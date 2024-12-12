@@ -1,56 +1,75 @@
 //** El controller es quién le responde al cliente!
 
-import { Request, Response } from "express"
-import { TransactionModel } from "../Models/transaction.model";
+import { NextFunction, Request, Response } from "express"
+import { TransactionService } from "../Services/transaction.service";
+import { HttpError } from "../Utils/httpError.util";
+import moment from "moment";
 
-const getTransactionsByUser = async (req: Request, res: Response) => {
+const getTransactionsByUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { id_user } = req.body;
-        const transaction = await TransactionModel.findAllByUser(id_user)
+        const { id_user } = req.params;
+        const transaction = await TransactionService.getAllTransactionsByUser(id_user)
         res.json(transaction)
     } catch (error) {
-        console.log(error)
-        if (error instanceof Error) {
-            res.status(500).json({ error: error.message })
-
-        } else res.status(500).json({ error: "Error de servidor" })
+        next(error);
     }
 }
-const getTransactionById = async (req: Request, res: Response) => {
+const getTransactionById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { id_transaction } = req.body;
-        const transaction = await TransactionModel.findOneById(id_transaction)
+        const { id_transaction } = req.params;
+        const transaction = await TransactionService.getTransactionById(id_transaction)
         res.json(transaction)
     } catch (error) {
-        console.log(error)
-        if (error instanceof Error) {
-            res.status(500).json({ error: error.message })
-        } else res.status(500).json({ error: "Error de servidor" })
+        next(error);
     }
 }
 
-const createTransaction = async (req: Request, res: Response) => {
+const createTransaction = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { id_user, id_account, id_category, amount, transaction_date } = req.body
-        if (!id_user || !id_account || !id_category || !amount || !transaction_date) {
-            res.status(304).json({ error: "Error de servidor" })
-            throw new Error("Error al agregar transaccion, dato faltante")
+        const { id_user, id_account, id_transaction_type, amount, transaction_date } = req.body
+        if (!id_user || !id_account || !id_transaction_type || !amount || !transaction_date) {
+            throw new HttpError(`Error al agregar Usuario, dato faltante`, 304);
+
         }
-        const newTransaction = await TransactionModel.create(req.body);
+        const formattedDate = moment.tz(transaction_date, 'America/Argentina/Buenos_Aires').toDate();
+        req.body.due_date = formattedDate;
+        const newTransaction = await TransactionService.createTransaction(req.body);
         res.json({ newTransaction })
 
     } catch (error) {
-        console.log(error)
-        if (error instanceof Error) {
-            res.status(500).json({ error: error.message })
-            return;
+        next(error);
+    }
+}
+const updateAllOfOneById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id_user, id_account, id_transaction_type, amount, transaction_date } = req.body
+        if (!id_user || !id_account || !id_transaction_type || !amount || !transaction_date) {
+            throw new HttpError(`Error al agregar Usuario, dato faltante`, 304);
         }
-        res.status(500).json({ error: "Error de servidor" })
+        const formattedDate = moment.tz(transaction_date, 'America/Argentina/Buenos_Aires').toDate();
+        req.body.due_date = formattedDate;
+        const oldTransaction = await TransactionService.updateAllOfOneById(req.body);
+        res.json({ oldTransaction })
+
+    } catch (error) {
+        next(error);
+    }
+}
+const DeleteById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id_transaction } = req.params
+        const dieTransaction = await TransactionService.DeleteById(id_transaction);
+        res.json({ dieTransaction })
+
+    } catch (error) {
+        next(error);
     }
 }
 
 export const TransactionController = {
     getTransactionsByUser,
     getTransactionById,
-    createTransaction
+    createTransaction,
+    updateAllOfOneById,
+    DeleteById
 }

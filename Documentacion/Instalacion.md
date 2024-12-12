@@ -28,8 +28,12 @@ npm install pg
 
 Logging - https://www.npmjs.com/package/winston
 
-Hito2
 npm i swagger-jsdoc https://swagger.io/
 npm i swagger-ui-express
 npm i --save-dev @types/swagger-jsdoc
 - npm i joi https://joi.dev/api/?v=17.13.3
+npm i joi
+npm i logger
+npm i winston
+npm i date-fns
+npm i moment-timezone

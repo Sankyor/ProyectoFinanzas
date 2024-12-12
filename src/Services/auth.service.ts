@@ -1,25 +1,42 @@
-import { userService } from "./user.service"
 import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
+import { generateAccessToken } from "../Utils/auth.util";
+import { UserModel } from "../Models/user.model";
+import { HttpError } from "../Utils/httpError.util";
 
 const loginWithEmailAndPassword = async (email: string, password: string) => {
-    const user = await userService.getUserByEmail(email)
-    if (!user) {
-        throw new Error("User not found");
+    const user = await UserModel.findUserByEmail(email)
+    if (!user.id_user) {
+        throw new HttpError("Usuario o clave incorrecta", 400);
     }
+    if (!user.active) throw new HttpError("Usuario o clave incorrecta", 400);
+
     // comparar los hash de contrasena
     const isValidPassword = await bcrypt.compare(password, user.password_hash);
     if (!isValidPassword) {
-        throw new Error("Password incorrect")
+        throw new HttpError("Usuario o clave incorrecta", 400);
     }
-    // generar el token JWT https://jwt.io/
-    const token = jwt.sign({ email: user.email }, "secret", {
-        expiresIn: "1h"
-    }) //secret, normalmente se pone en el env
-
+    const token = generateAccessToken(user.email, user.id_user);
     return { token };
+};
+const registerWithEmailAndPassword = async (
+    name: string,
+    email: string,
+    password: string
+) => {
+    console.log("registerWithEmailAndPassword")
+    const newUser = await UserModel.create(
+        name,
+        email,
+        password
+    );
+    if (!newUser[0].id_user) throw new Error("Error creando usuario");
+
+    const token = generateAccessToken(newUser[0].email, newUser[0].id_user);
+
+    return token;
 };
 
 export const authService = {
-    loginWithEmailAndPassword
+    loginWithEmailAndPassword,
+    registerWithEmailAndPassword
 }
