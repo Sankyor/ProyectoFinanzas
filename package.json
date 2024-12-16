@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "build": "pkgroll",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "devP": "tsx watch Desafíos/Prueba1/index.ts",
     "dev": "tsx watch  ./src/index.ts",
     "dev-experimental": "tsx watch --env-file=.env ./src/index.ts",
     "linter": "eslint src/",
     "format": "prettier --write src/",
-    "start": "node --env-file=.env dist/index.js"
+    "start": "node --env-file=.env dist/index.js",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.1",
     "@types/pg": "^8.11.10",
+    "@types/supertest": "^6.0.2",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.12.0",
@@ -45,6 +46,8 @@
     "moment-timezone": "^0.5.46",
     "nanoid": "^5.0.9",
     "pg": "^8.13.1",
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.8",
     "winston": "^3.17.0"
   }
 }
