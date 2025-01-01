@@ -1,0 +1,305 @@
+
+  openapi: 3.0.0
+  info:
+    title: Finanzas API
+    description: API para la gestión de usuarios, cuentas y transacciones financieras.
+    version: 1.0.0
+  servers:
+    - url: http://localhost:3000/api/v1
+  paths:
+    /auth/login:
+      post:
+        summary: Iniciar sesión
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: UsuarioCorrecto@mail.com
+                  password:
+                    type: string
+                    example: claveCorrecta
+        responses:
+          '200':
+            description: Inicio de sesión exitoso
+    /auth/register:
+      post:
+        summary: Registrar un nuevo usuario
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Nicolas
+                  email:
+                    type: string
+                    example: UsuarioCorrecto@mail.com
+                  password:
+                    type: string
+                    example: claveCorrecta
+        responses:
+          '201':
+            description: Usuario registrado exitosamente
+    /user/by-email:
+      get:
+        summary: Obtener usuario por email
+        parameters:
+          - in: query
+            name: email
+            schema:
+              type: string
+            required: true
+            description: Email del usuario
+        responses:
+          '200':
+            description: Usuario obtenido exitosamente
+    /user:
+      patch:
+        summary: Actualizar usuario por ID
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Nicolas
+                  email:
+                    type: string
+                    example: UsuarioCorrecto@mail.com
+        responses:
+          '200':
+            description: Usuario actualizado exitosamente
+    /user/by-email:
+      delete:
+        summary: Desactivar usuario por email
+        parameters:
+          - in: query
+            name: email
+            schema:
+              type: string
+            required: true
+            description: Email del usuario
+        responses:
+          '200':
+            description: Usuario desactivado exitosamente
+    /account:
+      post:
+        summary: Crear una nueva cuenta
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id_user:
+                    type: string
+                    example: 4fc3b1f4-7f8e-42a6-87b1-8a9366f2bd60
+                  name:
+                    type: string
+                    example: Banco Prueba
+                  id_account_type:
+                    type: string
+                    example: ec66ccc8-0176-4312-8209-e4405d27592e
+                  balance:
+                    type: number
+                    example: 100000.00
+                  credit_limit:
+                    type: number
+                    example: 1000000.00
+                  due_date:
+                    type: string
+                    format: date
+                    example: 2024-12-05
+        responses:
+          '201':
+            description: Cuenta creada exitosamente
+    /account/{id_account}:
+      get:
+        summary: Obtener cuenta por ID
+        parameters:
+          - in: path
+            name: id_account
+            schema:
+              type: string
+            required: true
+            description: ID de la cuenta
+        responses:
+          '200':
+            description: Cuenta obtenida exitosamente
+    /account/user/{id_user}:
+      get:
+        summary: Obtener cuentas por ID de usuario
+        parameters:
+          - in: path
+            name: id_user
+            schema:
+              type: string
+            required: true
+            description: ID del usuario
+        responses:
+          '200':
+            description: Cuentas obtenidas exitosamente
+    /account:
+      patch:
+        summary: Actualizar cuenta por ID
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id_account:
+                    type: string
+                    example: 8a450691-ce07-43b8-8f9d-33c93c20bef6
+                  id_user:
+                    type: string
+                    example: 4fc3b1f4-7f8e-42a6-87b1-8a9366f2bd60
+                  name:
+                    type: string
+                    example: Banco Prueba2
+                  id_account_type:
+                    type: string
+                    example: ec66ccc8-0176-4312-8209-e4405d27592e
+                  balance:
+                    type: number
+                    example: 100000.00
+                  credit_limit:
+                    type: number
+                    example: 1000000.00
+                  due_date:
+                    type: string
+                    format: date
+                    example: 2024-12-05T03:00:00.000Z
+        responses:
+          '200':
+            description: Cuenta actualizada exitosamente
+    /account/{id_account}:
+      delete:
+        summary: Eliminar cuenta por ID
+        parameters:
+          - in: path
+            name: id_account
+            schema:
+              type: string
+            required: true
+            description: ID de la cuenta
+        responses:
+          '200':
+            description: Cuenta eliminada exitosamente
+    /transaction:
+      post:
+        summary: Crear una nueva transacción
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id_user:
+                    type: string
+                    example: 4fc3b1f4-7f8e-42a6-87b1-8a9366f2bd60
+                  id_account:
+                    type: string
+                    example: 03cea39e-595c-4330-a191-7c0328abf471
+                  id_transaction_type:
+                    type: string
+                    example: f68ad752-86f5-41b2-832f-5b9badf66512
+                  amount:
+                    type: number
+                    example: 10000000
+                  description:
+                    type: string
+                    example: Prueba de sistema
+                  transaction_date:
+                    type: string
+                    format: date
+                    example: 2024-12-05
+        responses:
+          '201':
+            description: Transacción creada exitosamente
+    /transaction/{id_transaction}:
+      get:
+        summary: Obtener transacción por ID
+        parameters:
+          - in: path
+            name: id_transaction
+            schema:
+              type: string
+            required: true
+            description: ID de la transacción
+        responses:
+          '200':
+            description: Transacción obtenida exitosamente
+    /transaction/user/{id_user}:
+      get:
+        summary: Obtener transacciones por ID de usuario
+        parameters:
+          - in: path
+            name: id_user
+            schema:
+              type: string
+            required: true
+            description: ID del usuario
+        responses:
+          '200':
+            description: Transacciones obtenidas exitosamente
+    /transaction:
+      patch:
+        summary: Actualizar transacción por ID
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id_user:
+                    type: string
+                    example: 4fc3b1f4-7f8e-42a6-87b1-8a9366f2bd60
+                  id_account:
+                    type: string
+                    example: 03cea39e-595c-4330-a191-7c0328abf471
+                  id_transaction_type:
+                    type: string
+                    example: f68ad752-86f5-41b2-832f-5b9badf66512
+                  amount:
+                    type: number
+                    example: 10000
+                  description:
+                    type: string
+                    example: Prueba de sistema
+                  transaction_date:
+                    type: string
+                    format: date
+                    example: 2024-12-05
+        responses:
+          '200':
+            description: Transacción actualizada exitosamente
+    /transaction/{id_transaction}:
+      delete:
+        summary: Eliminar transacción por ID
+        parameters:
+          - in: path
+            name: id_transaction
+            schema:
+              type: string
+            required: true
+            description: ID de la transacción
+        responses:
+          '200':
+            description: Transacción eliminada exitosamente
+ 

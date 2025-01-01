@@ -42,3 +42,8 @@ Hito3
 npm i vitest
 npm i supertest
 npm i --save-dev @types/supertest
+---
+npm i swagger-ui-express
+npm i --save-dev @types/swagger-ui-express
+npm i swagger-jsdoc
+npm i --save-dev @types/swagger-jsdoc
