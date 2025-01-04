@@ -47,3 +47,9 @@ npm i swagger-ui-express
 npm i --save-dev @types/swagger-ui-express
 npm i swagger-jsdoc
 npm i --save-dev @types/swagger-jsdoc
+
+---
+npm i sequelize-typescript
+
+npm install --save-dev @types/node @types/validator
+npm install sequelize reflect-metadata sequelize-typescript
