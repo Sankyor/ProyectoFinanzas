@@ -1,5 +1,5 @@
 import { pool } from "../Config/database";
-import { Account } from "./account.interface";
+import { Account } from "../c_account/account.interface";
 
 
 const findOneById = async (id_account: string) => {

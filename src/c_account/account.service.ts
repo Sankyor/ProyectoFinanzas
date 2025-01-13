@@ -1,27 +1,69 @@
-import { Account } from "./account.interface";
-import { AccountModel } from "./account.model";
+import { Account } from "../Config/schema2";
+import logger from "../Utils/logger.utils";
+import { iAccount } from "./account.interface";
+
 
 
 const getAllAccountsByUser = async (id_user: string) => {
-    const accounts = await AccountModel.findAllByUser(id_user);
+    logger.info("account.service-getAllAccountsByUser");
+
+    const accounts = await Account.findAll({
+        where: {
+            id_user: id_user,
+        },
+    });
     return accounts;
 }
 const getAccountById = async (id_account: string) => {
-    const accounts = await AccountModel.findOneById(id_account);
-    return accounts;
+    logger.info("account.service-getAccountById");
+
+    const accounts = await Account.findByPk(id_account);
+    return accounts?.get();
 }
 
-const createAccount = async (account: Account) => {
-    const newAccount = await AccountModel.create(account);
-    return newAccount;
+const createAccount = async (id_user: string, account: Account) => {
+    logger.info("account.service-createAccount");
+    logger.info(`datos de la cuenta ${JSON.stringify(account)}`);;
+    logger.info(`name ${account.name}`);;
+
+    const newAccount = await Account.create({
+        id_user: id_user,
+        name: account.name,
+        id_account_type: account.id_account_type,
+        balance: account.balance,
+        credit_limit: account.credit_limit,
+        due_date: account.due_date
+    });
+    return newAccount.get();
 }
-const updateAllOfOneById = async (account: Account) => {
-    const oldAccount = await AccountModel.updateAllOfOneById(account);
+const updateAllOfOneById = async (account: iAccount) => {
+    logger.info("account.service-updateAllOfOneById");
+
+    const oldAccount = await Account.update(
+        {
+            name: account.name,
+            id_account_type: account.id_account_type,
+            balance: account.balance,
+            credit_limit: account.credit_limit,
+            due_date: account.due_date
+        },
+        {
+            where: {
+                id_account: account.id_account
+            },
+        }
+    );
 
     return oldAccount;
 }
 const DeleteById = async (id_account: string) => {
-    const dieAccount = await AccountModel.DeleteById(id_account);
+    logger.info("account.service-DeleteById");
+
+    const dieAccount = await Account.destroy({
+        where: {
+            id_account: id_account,
+        },
+    });
 
     return dieAccount;
 }

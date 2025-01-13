@@ -13,5 +13,9 @@ export const generateAccessToken = (
 };
 
 export const verifyAccessToken = (token: string) => {
-    return jwt.verify(token, secret) as jwt.JwtPayload;
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    const payload = jwt.verify(token, secret) as jwt.JwtPayload;
+    logger("payload", payload);
+    req.user = { id_user: payload.uid, email: payload.email };
+    return payload;
 };

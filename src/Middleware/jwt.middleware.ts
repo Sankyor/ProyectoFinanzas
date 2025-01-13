@@ -21,7 +21,7 @@ export const verifyToken = (
   const token = authHeader.split(" ")[1];
   try {
     const payload = jwt.verify(token, "secret") as jwt.JwtPayload;
-    req.email = payload.email;
+    req.user = payload.uid;
     next();
   } catch (error) {
     console.log(error);

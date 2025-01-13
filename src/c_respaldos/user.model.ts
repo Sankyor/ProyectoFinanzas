@@ -1,5 +1,5 @@
 import { pool } from "../Config/database";
-import { User } from "./user.interface";
+import { User } from "../c_user/user.interface";
 import { HttpError } from "../Utils/httpError.util";
 
 const findUserById = async (id_user: string) => {

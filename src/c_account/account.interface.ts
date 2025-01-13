@@ -1,4 +1,4 @@
-export interface Account {
+export interface iAccount {
     id_account: string;
     id_user: string;
     name: string;

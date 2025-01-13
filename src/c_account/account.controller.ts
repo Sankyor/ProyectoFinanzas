@@ -1,17 +1,19 @@
 //** El controller es quién le responde al cliente!
 
 import { NextFunction, Request, Response } from "express"
-import { AccountService } from "./account.service";
 import { HttpError } from "../Utils/httpError.util";
 import moment from 'moment-timezone';
+import logger from "../Utils/logger.utils";
+import { AccountService } from "./account.service";
 
 
 
 const getAccountsByUser = async (req: Request, res: Response, next: NextFunction) => {
+    logger.info("account.controller-getAccountsByUser");
+    const id_user = req.user;
+
     try {
         //necesito obtener el token del usuario para poder buscar su id
-
-        const { id_user } = req.params;
         const accounts = await AccountService.getAllAccountsByUser(id_user)
 
         res.json(accounts)
@@ -20,6 +22,8 @@ const getAccountsByUser = async (req: Request, res: Response, next: NextFunction
     }
 }
 const getAccountById = async (req: Request, res: Response, next: NextFunction) => {
+    logger.info("account.controller-getAccountById");
+
     try {
         const { id_account } = req.params;
         console.log(req.params)
@@ -31,8 +35,11 @@ const getAccountById = async (req: Request, res: Response, next: NextFunction) =
 }
 
 const createAccount = async (req: Request, res: Response, next: NextFunction) => {
+    logger.info("account.controller-createAccount");
+    const id_user = req.user;
+
     try {
-        const { id_user, name, id_account_type, balance, credit_limit, due_date } = req.body
+        const { name, id_account_type, balance, credit_limit, due_date } = req.body
         if (!id_user || !name || !id_account_type || !balance || !credit_limit || !due_date) {
             throw new HttpError(`Error al agregar Cuenta, dato faltante`, 304);
 
@@ -44,7 +51,7 @@ const createAccount = async (req: Request, res: Response, next: NextFunction) =>
 
 
         console.log(req.body.due_date)
-        const newAccount = await AccountService.createAccount(req.body);
+        const newAccount = await AccountService.createAccount(id_user, req.body);
         res.json({ newAccount })
 
     } catch (error) {
@@ -52,6 +59,8 @@ const createAccount = async (req: Request, res: Response, next: NextFunction) =>
     }
 }
 const updateAllOfOneById = async (req: Request, res: Response, next: NextFunction) => {
+    logger.info("account.controller-updateAllOfOneById");
+
     try {
         const { id_user, name, id_account_type, balance, credit_limit, due_date } = req.body
         if (!id_user || !name || !id_account_type || !balance || !credit_limit || !due_date) {
@@ -66,6 +75,8 @@ const updateAllOfOneById = async (req: Request, res: Response, next: NextFunctio
     }
 }
 const DeleteById = async (req: Request, res: Response, next: NextFunction) => {
+    logger.info("account.controller-DeleteById");
+
     try {
         const { id_account } = req.params
         const dieAccount = await AccountService.DeleteById(id_account);

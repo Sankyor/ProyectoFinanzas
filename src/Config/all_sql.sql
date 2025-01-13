@@ -1,42 +1,9 @@
-DROP DATABASE IF EXISTS BudgetZero;
-
-CREATE DATABASE BudgetZero;
-
-DROP TABLE IF EXISTS users;
-
-DROP TABLE IF EXISTS Accounts;
-
-DROP TABLE IF EXISTS Categories;
-
-DROP TABLE IF EXISTS Transactions;
-
-DROP TABLE IF EXISTS Parameters;
-
--- Tabla de Usuarios
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-CREATE TABLE account_types (
-    id_account_type UUID PRIMARY KEY DEFAULT uuid_generate_v4 (),
-    name VARCHAR(50) NOT NULL UNIQUE,
-    description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE transaction_types (
-    id_transaction_type UUID PRIMARY KEY DEFAULT uuid_generate_v4 (),
-    name VARCHAR(50) NOT NULL UNIQUE,
-    description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 INSERT INTO
-    account_types (
+    "AccountTypes" (
         name,
         description,
-        created_at,
-        updated_at
+        "createdAt",
+        "updatedAt"
     )
 VALUES (
         'Bank Account',
@@ -64,11 +31,11 @@ VALUES (
     );
 
 INSERT INTO
-    transaction_types (
+    "TransactionTypes" (
         name,
         description,
-        created_at,
-        updated_at
+        "createdAt",
+        "updatedAt"
     )
 VALUES (
         'Income',

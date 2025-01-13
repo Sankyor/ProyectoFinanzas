@@ -1,4 +1,4 @@
-export interface Transaction {
+export interface iTransaction {
     id_transaction?: string;
     id_user: string;
     id_account: string;

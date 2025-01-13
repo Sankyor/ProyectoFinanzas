@@ -1,5 +1,5 @@
 import { pool } from "../Config/database";
-import { Transaction } from "./transaction.interface";
+import { Transaction } from "../c_transaction/transaction.interface";
 
 const findOneById = async (id_transaction: string) => {
     console.log("findOneById")

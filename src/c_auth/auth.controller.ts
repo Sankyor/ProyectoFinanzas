@@ -3,7 +3,6 @@ import { authService } from "./auth.service";
 import { authLoginSchema } from "./auth.schema";
 import { HttpError } from "../Utils/httpError.util";
 import logger from "../Utils/logger.utils";
-import { userService } from "../c_user/user.service";
 
 
 //api/v1/auth/login
@@ -15,8 +14,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     if (error) {
       throw new HttpError(error.message, 400);
     }
-    const { email, password } = value;
-
+    const { email, password, active } = value;
+    if (active === false) {
+      throw new HttpError("User is not active", 400);
+    }
     const token = await authService.loginWithEmailAndPassword(email, password)
     logger.info(`User ${email} has logged in`);
 
@@ -31,7 +32,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, email, password } = req.body;
-    const token = await userService.createUser(
+    const token = await authService.registerWithEmailAndPassword(
       name,
       email,
       password

@@ -1,11 +1,14 @@
 import bcrypt from "bcryptjs"
 import { generateAccessToken } from "../Utils/auth.util";
-import { UserModel } from "../c_user/user.model";
 import { HttpError } from "../Utils/httpError.util";
+import { userService } from "../c_user/user.service";
+import logger from "../Utils/logger.utils";
 
 const loginWithEmailAndPassword = async (email: string, password: string) => {
-    const user = await UserModel.findUserByEmail(email)
-    if (!user.id_user) {
+    logger.info("auth.service-loginWithEmailAndPassword")
+
+    const user = await userService.getUserByEmailLogin(email)
+    if (!user) {
         throw new HttpError("Usuario o clave incorrecta", 400);
     }
     if (!user.active) throw new HttpError("Usuario o clave incorrecta", 400);
@@ -23,15 +26,15 @@ const registerWithEmailAndPassword = async (
     email: string,
     password: string
 ) => {
-    console.log("registerWithEmailAndPassword")
-    const newUser = await UserModel.create(
+    logger.info("auth.service-registerWithEmailAndPassword")
+    const newUser = await userService.createUser(
         name,
         email,
         password
     );
-    if (!newUser[0].id_user) throw new Error("Error creando usuario");
-
-    const token = generateAccessToken(newUser[0].email, newUser[0].id_user);
+    logger.info(`new user: ${newUser}`);
+    if (!newUser.id_user) throw new HttpError("Error creando usuario", 304);
+    const token = generateAccessToken(newUser.email, newUser.id_user);
 
     return token;
 };
