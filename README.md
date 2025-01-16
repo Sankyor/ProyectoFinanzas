@@ -8,3 +8,16 @@ Para evaluar el Hito2, revisar las rutas y sus request de ejemplo. En la carpeta
 
 ## Hito 3
 Favor evaluar carpeta test con comando npm run test
+
+## Hito 4
+Backlog:
+- Se modifica base de datos a Sequelize 
+- Se agrega Swagger en link http://localhost:3000/api/v1/api-docs/
+### Pasos
+- Instalar proyecto con sus dependencias
+- Montar Docker
+- Correr con npm run dev
+- Testear con Swagger en [link](http://localhost:3000/api/v1/api-docs/)
+#### Consideraciones:
+Para probar, considerar que accountType y transactionType se agregan automáticamente, por lo que al usar swagger, se pueden obtener con los get correspondientes. 
+Con la información de transactionType y accountType, se puede crear accounts y transactions.

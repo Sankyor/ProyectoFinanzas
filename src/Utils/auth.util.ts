@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 
-const secret = process.env.JWT_SECRET || "secret";
+const secret = process.env.JWT_SECRET;
+if (!secret) {
+    throw new Error("JWT_SECRET must be set");
+}
 
 export const generateAccessToken = (
     email: string,
@@ -14,7 +17,5 @@ export const generateAccessToken = (
 
 export const verifyAccessToken = (token: string) => {
     const payload = jwt.verify(token, secret) as jwt.JwtPayload;
-    logger("payload", payload);
-    req.user = { id_user: payload.uid, email: payload.email };
     return payload;
 };

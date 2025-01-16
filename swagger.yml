@@ -76,6 +76,13 @@
           '200':
             description: Usuario obtenido exitosamente
     /user:
+      get:
+        summary: Obtener datos del usuario
+        security:
+          - bearerAuth: []
+        responses:
+          '200':
+            description: Usuario obtenido exitosamente
       patch:
         summary: Actualizar usuario por ID
         security:
@@ -95,14 +102,7 @@
                     example: UsuarioCorrecto@mail.com
         responses:
           '200':
-            description: Usuario actualizado exitosamente
-      get:
-          summary: Obtener datos del usuario
-          security:
-            - bearerAuth: []
-          responses:
-            '200':
-              description: Usuario obtenido exitosamente
+            description: Usuario actualizado exitosamente    
       delete:
         summary: Desactivar usuario por email
         security:
@@ -111,6 +111,13 @@
           '200':
             description: Usuario desactivado exitosamente
     /account:
+      get:
+        summary: Obtener cuentas del usuario autenticado
+        security:
+          - bearerAuth: []
+        responses:
+          '200':
+            description: Cuentas obtenidas exitosamente
       patch:
         summary: Actualizar cuenta por ID
         security:
@@ -174,29 +181,6 @@
         responses:
           '201':
             description: Cuenta creada exitosamente
-    /account/user/{id_user}:
-      get:
-        summary: Obtener cuentas del usuario autenticado
-        security:
-          - bearerAuth: []
-        responses:
-          '200':
-            description: Cuentas obtenidas exitosamente
-    /account/{id_account}:
-      get:
-        summary: Obtener cuenta por ID
-        security:
-          - bearerAuth: []
-        parameters:
-          - in: path
-            name: id_account
-            schema:
-              type: string
-            required: true
-            description: ID de la cuenta
-        responses:
-          '200':
-            description: Cuenta obtenida exitosamente
       delete:
         summary: Eliminar cuenta por ID
         security:
@@ -211,7 +195,29 @@
         responses:
           '200':
             description: Cuenta eliminada exitosamente
+    /account/{id_account}:
+      get:
+        summary: Obtener cuenta por ID
+        security:
+          - bearerAuth: []
+        parameters:
+          - in: path
+            name: id_account
+            schema:
+              type: string
+            required: true
+            description: ID de la cuenta
+        responses:
+          '200':
+            description: Cuenta obtenida exitosamente     
     /transaction:
+      get:
+        summary: Obtener transacciones por ID de usuario
+        security:
+          - bearerAuth: []
+        responses:
+          '200':
+            description: Transacciones obtenidas exitosamente
       patch:
         summary: Actualizar transacción por ID
         security:
@@ -275,14 +281,20 @@
         responses:
           '201':
             description: Transacción creada exitosamente
-    /transaction/user/{id_user}:
-      get:
-        summary: Obtener transacciones por ID de usuario
+      delete:
+        summary: Eliminar transacción por ID
         security:
           - bearerAuth: []
+        parameters:
+          - in: path
+            name: id_transaction
+            schema:
+              type: string
+            required: true
+            description: ID de la transacción
         responses:
           '200':
-            description: Transacciones obtenidas exitosamente
+            description: Transacción eliminada exitosamente
     /transaction/{id_transaction}:
       get:
         summary: Obtener transacción por ID
@@ -298,20 +310,7 @@
         responses:
           '200':
             description: Transacción obtenida exitosamente
-      delete:
-        summary: Eliminar transacción por ID
-        security:
-          - bearerAuth: []
-        parameters:
-          - in: path
-            name: id_transaction
-            schema:
-              type: string
-            required: true
-            description: ID de la transacción
-        responses:
-          '200':
-            description: Transacción eliminada exitosamente
+      
 
   components:
     securitySchemes:
