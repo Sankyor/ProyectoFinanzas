@@ -1,7 +1,9 @@
-[] Crear conexion pool con pg   
-[] Crear documentacion para cada link
-[] CRUD Usuarios
-[] CRUD Movimientos
-[] CRUD Cuentas
-[] CRUD Categorias
-[] Crear rutas para cada evento
+- [ ] Mejorar delete de transaction, devuelve null
+- [ ] Mejorar updates en general, qué deben devolver?
+- [ ]  Al borrar una cuenta debería borrar también las transacciones?
+- [ ]  Get de transacción por cuenta
+- [ ]  get de tipo de transacción para comprobar que existe
+- [ ]  get de tipo de cuenta para comprobar que existe
+- [ ]  Colocar bien los errores SQL
+- [ ]  Algunos get devuelven null si no encuentran nada
+- [ ]  Tipar req.usuario

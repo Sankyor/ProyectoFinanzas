@@ -125,9 +125,6 @@
                   id_account:
                     type: string
                     example: 8a450691-ce07-43b8-8f9d-33c93c20bef6
-                  id_user:
-                    type: string
-                    example: 4fc3b1f4-7f8e-42a6-87b1-8a9366f2bd60
                   name:
                     type: string
                     example: Banco Prueba2

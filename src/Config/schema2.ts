@@ -30,8 +30,16 @@ export class TransactionType extends Model {
     description?: string;
 }
 
+interface iUser {
+    id_user?: string;
+    name: string;
+    email: string;
+    password_hash: string;
+    active: boolean;
+}
+
 @Table//({ tableName: 'user', timestamps: false })
-export class User extends Model {
+export class User extends Model<iUser> {
     @PrimaryKey
     @Default(DataType.UUIDV4)
     @Column(DataType.UUID)

@@ -5,6 +5,7 @@ import { TransactionService } from "./transaction.service";
 import { HttpError } from "../Utils/httpError.util";
 import moment from "moment";
 import logger from "../Utils/logger.utils";
+import { AccountService } from "../c_account/account.service";
 
 const getTransactionsByUser = async (req: Request, res: Response, next: NextFunction) => {
     logger.info("transaction.controller-getTransactionsByUser");
@@ -32,8 +33,12 @@ const getTransactionById = async (req: Request, res: Response, next: NextFunctio
 const createTransaction = async (req: Request, res: Response, next: NextFunction) => {
     logger.info("transaction.controller-createTransaction");
     const id_user = req.user;
-
+    
     try {
+        const account = await AccountService.getAccountById(req.body.id_account);
+        if (!account) {
+            throw new HttpError(`Error al agregar Usuario, dato faltante`, 304);
+        }
         const { id_account, id_transaction_type, amount, transaction_date } = req.body
         if (!id_user || !id_account || !id_transaction_type || !amount || !transaction_date) {
             throw new HttpError(`Error al agregar Usuario, dato faltante`, 304);

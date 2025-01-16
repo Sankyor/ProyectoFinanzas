@@ -60,9 +60,10 @@ const createAccount = async (req: Request, res: Response, next: NextFunction) =>
 }
 const updateAllOfOneById = async (req: Request, res: Response, next: NextFunction) => {
     logger.info("account.controller-updateAllOfOneById");
+    const id_user = req.user;
 
     try {
-        const { id_user, name, id_account_type, balance, credit_limit, due_date } = req.body
+        const { name, id_account_type, balance, credit_limit, due_date } = req.body
         if (!id_user || !name || !id_account_type || !balance || !credit_limit || !due_date) {
             throw new HttpError(`Error al agregar Cuenta, dato faltante`, 304);
 
