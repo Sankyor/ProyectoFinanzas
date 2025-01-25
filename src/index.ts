@@ -13,8 +13,8 @@ const main = async () => {
   try {
     // const { rows } = await pool.query("SELECT NOW()");
     // console.log(rows[0].now, "db conectada!");
-    // await sequelize.sync({ force: true });
-    await sequelize.sync();
+    await sequelize.sync({ force: true });
+    // await sequelize.sync();
     console.log("Database conectada");
 
     const server = app.listen(port, () => {

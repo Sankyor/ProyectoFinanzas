@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
+import { HttpError } from "./httpError.util";
 
 const secret = process.env.JWT_SECRET;
 if (!secret) {
-    throw new Error("JWT_SECRET must be set");
+    throw new HttpError ("JWT_SECRET must be set", 500);
 }
 
 export const generateAccessToken = (

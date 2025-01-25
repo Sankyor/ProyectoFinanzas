@@ -31,7 +31,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 //api/v1/auth/register
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, password } = req.body;
+    let {email} = req.body;
+    email = email.toLowerCase();
+ 
+
     const token = await authService.registerWithEmailAndPassword(
       name,
       email,

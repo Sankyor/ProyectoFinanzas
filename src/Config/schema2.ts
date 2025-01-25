@@ -57,7 +57,11 @@ export class User extends Model<iUser> {
 
     @Column({ type: DataType.BOOLEAN, allowNull: false })
     active!: boolean;
-}
+
+    @Unique
+    @Column({ type: DataType.STRING(255), allowNull: true })
+    token!: string;
+}   
 
 @Table//({ tableName: 'account', timestamps: false })
 export class Account extends Model {
