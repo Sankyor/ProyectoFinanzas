@@ -18,6 +18,7 @@ const loginWithEmailAndPassword = async (email: string, password: string) => {
     if (!isValidPassword) {
         throw new HttpError("Usuario o clave incorrecta", 400);
     }
+    if(!user.id_user) throw new HttpError("Error obteniendo usuario", 304);
     const token = generateAccessToken(user.email, user.id_user);
     return { token };
 };

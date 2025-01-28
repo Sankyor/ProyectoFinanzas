@@ -18,4 +18,9 @@
 Hito5
 - Agregar Roles?
 - Guardar token en bd para tener la sesión?
+  - Agregar campo en el schema
+  - Guardar el token al registrar usuario
+  - Guardar token al iniciar sesión
+  - Validar token vigente desde la base de datos o que exista
+  - Eliminar token al dormir usuario
 - Incluir cookie de token

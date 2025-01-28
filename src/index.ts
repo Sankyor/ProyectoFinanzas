@@ -5,16 +5,16 @@ import { insertTransactionType } from "./Config/TransactionType"
 import { insertAccountType } from "./Config/accountTypes"
 import { HttpError } from "./Utils/httpError.util";
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT!;
 // app.listen(port, () => {
 //   console.log("Servidor andando en el puerto: " + port);
 // });
-const main = async () => {
+const main = async () => {/*  */
   try {
     // const { rows } = await pool.query("SELECT NOW()");
     // console.log(rows[0].now, "db conectada!");
-    await sequelize.sync({ force: true });
-    // await sequelize.sync();
+    // await sequelize.sync({ force: true });
+    await sequelize.sync();
     console.log("Database conectada");
 
     const server = app.listen(port, () => {

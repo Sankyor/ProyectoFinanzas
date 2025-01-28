@@ -76,7 +76,7 @@ const updateUserById = async (id_user: string, name: string, email: string) => {
 const sleepUserByIdLoged = async (id_user: string) => {
     logger.info(`user.service-sleepUserByIdLoged, id_user: ${id_user}`);
     const sleepUser = await User.update(
-        { active: false, token: null },
+        { active: false },
         {
             where: {
                 id_user: id_user,
