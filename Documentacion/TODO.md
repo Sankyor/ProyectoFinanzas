@@ -24,3 +24,50 @@ Hito5
   - Validar token vigente desde la base de datos o que exista
   - Eliminar token al dormir usuario
 - Incluir cookie de token
+
+![alt text](image.png)
+![alt text](image-1.png)
+
+
+```ts
+interface User{
+  uid: string;
+  name: string;
+  email: string;
+  password_hash: string;
+  active: boolean;
+}
+
+interface AccountType{
+  id_account_type: string;
+  name: string;
+  description?: string;
+}
+
+interface TransactionType{
+  id_transaction_type: string;
+  name: string;
+  description?: string;
+}
+
+interface Account{
+  id_account: string;
+  id_user: User;
+  name: string;
+  id_account_type: AccountType;
+  balance: number;
+  credit_limit?: number;
+  due_date: Date;
+}
+
+interface Transaction{
+  id_transaction: string;
+  id_user: User;
+  id_account: Account;
+  amount: number;
+  id_transaction_type: TransactionType;
+  description?: string;
+  transaction_date: Date;
+  
+}
+```

@@ -26,3 +26,7 @@ Con la información de transactionType y accountType, se puede crear accounts y 
 Backlog:
 - Se agregan validaciones para el usuario. [text](src/c_auth/auth.schema.ts)
 - NOTA: Las carpetas c_ son componentes, cada uno tiene su controlador.
+
+Esquema:
+![alt text](Documentacion/Esquema.png)
+https://tsdiagram.com/#/
