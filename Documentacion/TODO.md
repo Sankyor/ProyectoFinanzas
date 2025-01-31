@@ -24,6 +24,7 @@ Hito5
   - Validar token vigente desde la base de datos o que exista
   - Eliminar token al dormir usuario
 - Incluir cookie de token
+- Subir a Render
 
 ![alt text](image.png)
 ![alt text](image-1.png)
