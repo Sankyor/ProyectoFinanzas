@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import "dotenv/config";
+
 
 // Quiero extender o modificar el comportamiento de un módulo ya existente.
 declare module "express-serve-static-core" {
   interface Request {
+    user?: string;
     email?: string;
   }
 }
@@ -20,8 +23,8 @@ export const verifyToken = (
   }
   const token = authHeader.split(" ")[1];
   try {
-    const payload = jwt.verify(token, "secret") as jwt.JwtPayload;
-    req.email = payload.email;
+    const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload;
+    req.user = payload.uid;
     next();
   } catch (error) {
     console.log(error);
