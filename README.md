@@ -30,3 +30,9 @@ Backlog:
 Esquema:
 ![alt text](Documentacion/Esquema.png)
 https://tsdiagram.com/#/
+
+
+## Hito 6
+Backlog:
+- Se agrega lo que hicimos en clases
+- Se agrega manejo de errores en index.ts por función de [text](src/Utils/socket.error.ts)
